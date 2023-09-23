@@ -1,5 +1,7 @@
+const { getWeth } = require("./getWeth")
 async function main() {
     // the protoccal treats everything as an ERC20 token
+    await getWeth()
 }
 
 main()
