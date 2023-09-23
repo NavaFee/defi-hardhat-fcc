@@ -35,7 +35,12 @@ async function main() {
     //Brrow Time!
     // how much we have borrowed, how much we have in collateral, how much we can borrow?
     const daiTokenAddress = "0x6B175474E89094C44Da98b954EedeAC495271d0F"
-    console.log(lendingPool)
+    await borrowDai(
+        daiTokenAddress,
+        lendingPool,
+        amountDaiToBorrowWei,
+        deployer
+    )
     // await borrowDai(daiTokenAddress, lendingPool, amountDaiToBorrowWei, signer)
     await getBorrowUserData(lendingPool, deployer)
     await repay(amountDaiToBorrowWei, daiTokenAddress, lendingPool, signer)
@@ -46,7 +51,7 @@ async function main() {
 
 async function repay(amount, daiAddress, lendingPool, account) {
     await approveErc20(daiAddress, lendingPool.target, amount, account)
-    const repayTx = await lendingPool.repay(daiAddress, amount, 1, account)
+    const repayTx = await lendingPool.repay(daiAddress, amount, 2, account)
     await repayTx.wait(1)
     console.log("Repaid!")
 }
@@ -60,7 +65,7 @@ async function borrowDai(
     const borrowTx = await lendingPool.borrow(
         daiAddress,
         amountDaiToBorrowWei,
-        1,
+        2,
         0,
         deployer
     )
